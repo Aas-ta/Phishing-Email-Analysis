@@ -1,0 +1,39 @@
+SOC120 – Phishing Mail Detected (Internal to Internal)
+Alert Details
+
+	• Event ID: 52 
+	• Event Time: Feb 07, 2021, 04:24 AM 
+	• Detection Rule: SOC120 – Phishing Mail Detected (Internal to Internal) 
+	• Severity Level: Security Analyst 
+	• SMTP IP Address: 172.16.20.3 
+	• Source Email: john@letsdefend.io 
+	• Destination Email: susie@letsdefend.io 
+	• Email Subject: Meeting 
+	• Device Action: Allowed 
+Email Analysis (Parsing Phase)
+Initial email attributes were reviewed before proceeding with deeper investigation:
+	• Timestamp: Feb 07, 2021, 04:24 AM 
+	• SMTP Address: 172.16.20.3 
+	• Sender: john@letsdefend.io 
+	• Recipient: susie@letsdefend.io 
+	• Content Suspicious?: No 
+	• Attachments Present?: No 
+
+Investigation Summary
+	• The source email, destination email, and subject line were verified through the Email Threat Protection (ETP) / Email Security Gateway. 
+	• No malicious attachments or embedded URLs were identified. 
+	• The SMTP IP (172.16.20.3) was analyzed in the EDR/Endpoint Security solution, which confirmed it as an internal Exchange server. 
+	• No indicators of compromise (IOCs) or anomalous activity were observed. 
+	
+Conclusion:
+This alert was determined to be a False Positive, as the email originated from a legitimate internal mail server and contained no malicious content.
+
+Investigation Steps
+	Note: These steps serve as a general guideline and may vary depending on the scenario.
+	1. Verify sender, recipient, and subject in the Email Security Gateway (ETP). 
+	2. Check for malicious indicators such as suspicious URLs or attachments. 
+	3. Investigate the SMTP IP address using EDR/Endpoint Security tools. 
+	4. Analyze for potential email spoofing or impersonation attempts. 
+
+Mitigation / Recommendations
+	• Fine-tune the detection rule to reduce false positives for legitimate internal email communications.
