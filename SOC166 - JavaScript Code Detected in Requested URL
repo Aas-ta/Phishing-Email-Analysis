@@ -41,6 +41,8 @@ Threat Analysis
 		○ No abnormal behavior detected on the endpoint 
 		
 Investigation Actions
+Note: This is just a reference guide and not all the investigations would align with the steps below. 
+
 	1. Analyzed HTTP request fields (URL, headers, payload). 
 	2. Reviewed logs in the Log Management/SIEM platform for repeated patterns. 
 	3. Investigated source IP reputation using threat intelligence tools. 
