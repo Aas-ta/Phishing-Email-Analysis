@@ -1,0 +1,65 @@
+SOC166 – JavaScript Code Detected in Requested URL
+
+Alert Details
+	• Event ID: 116 
+	• Event Time: Feb 26, 2022, 06:56 PM 
+	• Detection Rule: SOC166 – JavaScript Code Detected in Requested URL 
+	• Severity Level: Security Analyst 
+	• Hostname: WebServer1002 
+	• Source IP: 112.85.42.13 (External) 
+	• Destination IP: 172.16.17.17 (Internal) 
+	• Protocol: HTTPS 
+	• HTTP Method: GET 
+	• Requested URL: https://172.16.17.17/search/?q=<$script>javascript:$alert(1)<$/script>
+	• User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1 
+	• Trigger Reason: JavaScript code detected in URL (Potential XSS attempt) 
+	• Device Action: Allowed 
+	• Traffic Direction: Inbound (Internet → Internal Network) 
+
+Initial Triage (Data Collection)
+	• Traffic Origin: External (Internet) 
+	• IP Ownership: Pool Address (112.80.0.0 – 112.87.255.255) 
+	• ISP/Organization: China Unicom (China169 Backbone) 
+	• Web Hosting: No 
+	• IP Reputation: Malicious
+(Verified via threat intelligence sources such as VirusTotal, AbuseIPDB, Cisco Talos) 
+	
+Traffic & Payload Analysis
+	• The request contains a JavaScript payload embedded in the URL, indicating a potential Cross-Site Scripting (XSS) attempt. 
+	• Payload observed: <$script>javascript:$alert(1)</script>
+	• Log analysis showed repeated (persistent) requests from the same source IP, suggesting automated or scripted attack behavior. 
+	• The server responded with HTTP 302 (Redirection), indicating: 
+		○ The request was processed but redirected 
+		○ No clear evidence of successful payload execution 
+		
+Threat Analysis
+	• Attack Type: Cross-Site Scripting (XSS) Attempt 
+	• Attack Nature: Unplanned / Real-world malicious traffic 
+	• Persistence: Yes (Repeated attempts observed) 
+	• Success Status: Unsuccessful 
+		○ No indicators of compromise found on the target system 
+		○ No abnormal behavior detected on the endpoint 
+		
+Investigation Actions
+	1. Analyzed HTTP request fields (URL, headers, payload). 
+	2. Reviewed logs in the Log Management/SIEM platform for repeated patterns. 
+	3. Investigated source IP reputation using threat intelligence tools. 
+	4. Checked endpoint and server behavior for signs of compromise. 
+	5. Verified that the activity was not part of an internal security test. 
+
+Escalation Decision
+	• Tier 2 Escalation Required: No 
+Reason:
+	• Attack originated from the internet 
+	• No evidence of successful exploitation 
+	• No internal system compromise detected 
+
+Conclusion
+A malicious external IP attempted a Cross-Site Scripting (XSS) attack by injecting JavaScript code into a URL parameter. Although the request was allowed and resulted in a redirection (HTTP 302), there is no evidence that the attack was successful.
+This activity is classified as a failed web attack attempt and does not require further escalation.
+
+ Mitigation
+	• Implement or strengthen Web Application Firewall (WAF) rules to block XSS patterns. 
+	• Apply input validation and output encoding on web applications. 
+	• Monitor and consider blocking repeated malicious IP addresses. 
+	• Review server behavior for excessive HTTP 302 responses to suspicious inputs.
