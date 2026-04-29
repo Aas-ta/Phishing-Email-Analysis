@@ -1,0 +1,42 @@
+SOC140 - Phishing Mail Detected - Suspicious Task Scheduler
+
+EventID : 82
+Event Time : Mar, 21, 2021, 12:26 PM
+Rule : SOC140 - Phishing Mail Detected - Suspicious Task Scheduler
+Level : Security Analyst
+SMTP Address : 189.162.189.159
+Source Address : aaronluo@cmail.carleton.ca
+Destination Address : mark@letsdefend.io
+E-mail Subject : COVID19 Vaccine
+Device Action : Blocked
+
+Parse Email
+Before starting the analysis, information about the incoming email should be obtained.
+
+When was it sent? Mar, 21, 2021, 12:26 PM
+What is the email's SMTP address? 189.162.189.159
+What is the sender address? aaronluo@cmail.carleton.ca
+What is the recipient address? mark@letsdefend.io
+Is the mail content suspicious? yes
+Are there any attachment? Yes
+
+Analyst Note :
+- The domain "cmail.carleton.ca" is flagged as malicious, as we have received multiple malicious attachments from the senders associated with this domain. - The senders mentioned in the Artifacts Section are sending infected attachments. - The IP and the sender domain need to be blocked through Email Security. - Deleted the emails received by the suspicious domain from all recipient mailboxes.
+
+Steps For Investigation 
+Note: This is just a reference guide and not all the investigations would align with the below steps. 
+
+	1. Find the suspicious Domain. 
+	2. Search for the suspicious domain in your ETP/ Email Security Gateway. 
+	3. Perform a maximum lookback search with the suspicious domain name 
+	4. This will provide us with multiple suspicious sender email address and ensure that we do not miss any emails. 
+	5. Verify the domain on external CTI tools like Virus Total/Abuse IPDB/Talos, etc. 
+	6. Verify the Sender IP on external CTI tools like Virus Total/Abuse IPDB/Talos, etc. 
+	7. Detonate suspicious attachment in external CTI Tools like Virus Total/Any Run, etc. 
+	8. Once confirmed that the attachment/URLs are malicious follow the mitigation steps
+
+Steps for Mitigation: 
+	1. Block the identified malicious IP address through Firewall and Email Security - so we do not receive further phishing emails from the same IP address. 
+	2. Block the identified malicious Domain address through Firewall and Email Security - so we do not receive further phishing emails from the same Domain address. 
+	3. Block the hashes on Endpoint Detection and Response systems to detect and stop any/all executions of the malicious attachments. 
+	4. Document the Artifacts 
