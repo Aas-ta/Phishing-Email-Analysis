@@ -1,0 +1,85 @@
+SOC168 - Whoami Command Detected in Request Body
+
+Note: These steps serve as a general guideline and may vary depending on the scenario.
+
+1. Initial Triage
+	• Alert Name: SOC168 - Whoami Command Detected in Request Body 
+	• Event ID: 118 
+	• Timestamp: Feb 28, 2022, 04:12 AM 
+	• Affected Host: WebServer1004 
+	• Severity: Medium (Security Analyst Level) 
+Quick Summary:
+An alert was triggered due to the presence of the whoami command in an HTTP POST request body, indicating a potential command injection attack targeting an internal web server.
+
+2. Traffic & Payload Analysis
+	• Source IP: 61.177.172.87 (External) 
+	• Destination IP: 172.16.17.16 (Internal) 
+	• Direction: Inbound 
+	• Protocol: HTTPS (443) 
+	• HTTP Method: POST 
+	• URL: /video/ 
+	• User-Agent: Legacy browser (MSIE 6.0) 
+	• Device Action: Allowed 
+Payload Insight:
+	• The request body contains: whoami 
+	• This suggests an attempt to execute system-level commands via input injection 
+Key Observation:
+	• The request was not blocked, increasing the likelihood of successful exploitation 
+
+3. Threat Analysis
+	• Attack Type: Command Injection 
+	• Technique: Injecting OS commands through web input fields 
+	• Goal of Attacker: 
+		○ Identify current user (whoami) 
+		○ Enumerate system (ls, uname) 
+		○ Access files (cat) 
+Threat Intelligence:
+	• IP Owner: CHINANET Jiangsu Province Network 
+	• ISP: chinatelecom.cn 
+	• IP Type: Dynamic pool range 
+	• Reputation: Malicious (VirusTotal, AbuseIPDB, Cisco Talos) 
+Assessment:
+This activity is consistent with real-world exploitation attempts, not benign scanning.
+
+4. Investigation Actions
+Steps Performed:
+	• Reviewed alert details and request payload 
+	• Verified traffic origin (external → internal) 
+	• Checked threat intelligence sources for IP reputation 
+	• Confirmed no internal planned test (email/simulation tools) 
+	• Investigated endpoint logs via process/command history 
+Findings:
+The following commands were executed on the server:
+	• whoami 
+	• ls 
+	• uname 
+	• cat 
+Key Insight:
+	• These commands confirm successful command execution 
+	• Indicates post-exploitation activity 
+
+5. Escalation Decision
+	• Escalation Required: Yes (Tier 2) 
+Reason:
+	• Confirmed command execution on endpoint 
+	• Evidence of attacker interaction beyond initial access 
+	• Potential for further compromise or lateral movement 
+
+6. Conclusion
+The alert represents a successful command injection attack against the internal web server.
+Evidence shows that:
+	• The attacker successfully executed the whoami command 
+	• Additional commands (ls, uname, cat) indicate further system interaction 
+This confirms that the system was compromised, not just targeted.
+
+7. Mitigation & Response
+Immediate Actions:
+	• Isolated the affected host (WebServer1004) via Endpoint Security 
+	• Prevented further attacker access 
+Recommended Next Steps:
+	• Perform full forensic analysis on the host 
+	• Identify and patch the vulnerable web application 
+	• Implement input validation and sanitization 
+	• Deploy/strengthen Web Application Firewall (WAF) rules 
+	• Monitor for lateral movement or persistence mechanisms 
+	• Block or monitor malicious IP (61.177.172.87) 
