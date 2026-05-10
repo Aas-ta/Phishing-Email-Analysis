@@ -1,0 +1,72 @@
+SOC167 - LS Command Detected in Requested URL
+Alert Information
+
+Field               	Details
+Event ID	               117
+Event Time	             Feb 27, 2022, 12:36 AM
+Rule Name	               SOC167 - LS Command Detected in Requested URL
+Alert Level	             Security Analyst
+Hostname	               EliotPRD
+Source IP Address	       172.16.17.46 (Internal)
+Destination IP Address	 188.114.96.15 (External)
+HTTP Method              GET
+Requested URL	           https://letsdefend.io/blog/?s=skills
+User-Agent	             Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:24.0) Gecko/20100101 Firefox/24.0
+Device Action	           Allowed
+Alert Trigger Reason	   URL contains the string "ls"
+
+Step 1: Initial Traffic Analysis
+Traffic Direction
+	• Outbound traffic
+Protocol Used
+	• HTTPS (Application Layer Protocol)
+Observation
+The alert was triggered because the SIEM detection rule identified the substring ls within the URL parameter:
+?s=skills
+The term skills contains the characters ls, which matched the detection logic for the Linux ls command.
+
+Step 2: Data Collection and Investigation
+
+External Destination Analysis
+Investigation Item	Result
+Traffic Origin	Internal company network
+Destination Type	External
+IP Ownership	Cloudflare, Inc.
+Hosting Provider	Cloudflare
+Web Hosting Service	Yes
+Reputation Check: No malicious reputation detected
+Reputation Tools Used: VirusTotal, AbuseIPDB, Cisco Talos
+
+Internal Host Analysis
+Investigation Item	Result
+Hostname	EliotPRD
+Source IP Address	172.16.17.46
+Last User Logon Time	Feb 27, 2022, 12:00 AM
+EDR Investigation	Performed
+Suspicious Activity Found	No
+
+Step 3: URL Analysis
+The requested URL:
+https://letsdefend.io/blog/?s=skills
+contains the parameter:
+s=skills
+The SIEM rule incorrectly matched the substring ls from the word skills and interpreted it as a possible Linux ls command execution attempt.
+However:
+	• No command injection indicators were identified.
+	• No suspicious payloads were present in the URL.
+	• No malicious outbound connections were detected.
+	• Endpoint investigation showed normal browsing activity.
+
+Step 4: Conclusion
+Verdict
+	• False Positive
+Reason
+The alert was triggered due to a keyword-based detection rule that matched the substring ls inside the word skills within the URL query parameter.
+The investigation confirmed:
+	• The traffic was legitimate.
+	• The destination was a trusted service protected by Cloudflare.
+	• No malicious behavior or command execution activity was observed on the endpoint or network logs.
+
+Mitigation:
+	• Improve SIEM rule logic to detect standalone command patterns instead of partial string matches.
+Tune detection rules to avoid matching common words containing command substrings, and also test after creating the rules.
